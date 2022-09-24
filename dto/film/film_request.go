@@ -11,7 +11,6 @@ type FilmRequest struct {
 
 type CreateFilmRequest struct {
 	Title       string `json:"title" form:"title" validate:"required"`
-	ThumbNail   string `json:"thumbNail" form:"thumbNail" validate:"required"`
 	LinkFilm    string `json:"linkFilm" form:"linkFilm" gorm:"type: varchar(255)" `
 	Year        string `json:"year" form:"year"`
 	CategoryID  int    `json:"category_id" form:"category_id"`

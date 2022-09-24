@@ -80,7 +80,6 @@ func (h *handlerFilm) CreateFilm(w http.ResponseWriter, r *http.Request) {
 
 	request := filmsdto.CreateFilmRequest{
 		Title:       r.FormValue("title"),
-		ThumbNail:   r.FormValue("thumbNail"),
 		LinkFilm:    r.FormValue("linkFilm"),
 		Year:        r.FormValue("year"),
 		CategoryID:  category_id,
