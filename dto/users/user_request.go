@@ -7,7 +7,7 @@ type CreateUserRequest struct {
 	Gender   string `json:"gender" form:"gender" validate:"required"`
 	Phone    string `json:"phone" gorm:"type:varchar(50)"`
 	Address  string `json:"address" form:"address"`
-	Status   bool   `json:"status" form:"subscribe"`
+	Status   bool   `json:"status" form:"status"`
 	Role     string `json:"role" form:"role"`
 }
 
@@ -18,6 +18,6 @@ type UpdateUserRequest struct {
 	Gender   string `json:"gender" form:"gender"`
 	Phone    string `json:"phone" gorm:"type:varchar(50)"`
 	Address  string `json:"address" form:"address"`
-	Status   bool   `json:"status" form:"subscribe"`
+	Status   bool   `json:"status" form:"status"`
 	Role     string `json:"role" form:"role"`
 }
