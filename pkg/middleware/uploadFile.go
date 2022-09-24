@@ -38,7 +38,7 @@ func UploadFile(next http.HandlerFunc) http.HandlerFunc {
 
 		filetype := http.DetectContentType(buff)
 		fmt.Println(filetype)
-		if filetype != "image/jpeg" && filetype != "image/png" && filetype != "image/jpg" && filetype != "video/mp4"  {
+		if filetype != "image/jpeg" && filetype != "image/png" && filetype != "image/jpg" && filetype != "video/mp4" {
 			w.WriteHeader(http.StatusBadRequest)
 			response := dto.ErrorResult{Code: http.StatusBadRequest, Message: "The provided file format is not allowed. Please upload a JPEG or PNG image"}
 			json.NewEncoder(w).Encode(response)
@@ -47,12 +47,12 @@ func UploadFile(next http.HandlerFunc) http.HandlerFunc {
 
 		_, err = file.Seek(0, io.SeekStart)
 		if err != nil {
-		  w.WriteHeader(http.StatusInternalServerError)
-		  response := dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()}
-		  json.NewEncoder(w).Encode(response)
-		  return
+			w.WriteHeader(http.StatusInternalServerError)
+			response := dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()}
+			json.NewEncoder(w).Encode(response)
+			return
 		}
-		
+
 		const MAX_UPLOAD_SIZE = 100 << 20 // 10MB
 		r.ParseMultipartForm(MAX_UPLOAD_SIZE)
 		if r.ContentLength > MAX_UPLOAD_SIZE {
@@ -63,7 +63,7 @@ func UploadFile(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		fileTypeSplit := strings.Split(filetype, "/")
-		tempFile, err := ioutil.TempFile("uploads",fileTypeSplit[0]+"-*."+fileTypeSplit[1])
+		tempFile, err := ioutil.TempFile("uploads", fileTypeSplit[0]+"-*."+fileTypeSplit[1])
 		if err != nil {
 			fmt.Println(err)
 			fmt.Println("path upload error")
@@ -83,9 +83,10 @@ func UploadFile(next http.HandlerFunc) http.HandlerFunc {
 		tempFile.Write(fileBytes)
 
 		data := tempFile.Name()
-		filename := data[8:] // split uploads/
+		// filename := data[8:] // split uploads/
+
 		// add filename to ctx
-		ctx := context.WithValue(r.Context(), "image", filename)
+		ctx := context.WithValue(r.Context(), "dataFile", data)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
